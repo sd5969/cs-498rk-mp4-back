@@ -453,13 +453,17 @@ userRoute.delete(function(req, res) {
 		return;
 	}
 
-	User.findByIdAndRemove(userID, function(err) {
+	User.findByIdAndRemove(userID, function(err, user) {
 		if(err) {
 			res.status(500).json({"message" : '' + err, "data" : []});
 			return;
 		}
-		else {
+		else if(user) {
 			res.json({"message" : "User deleted.", "data" : []});
+			return;
+		}
+		else {
+			res.status(404).json({"message" : "Error: User not found.", data : []});
 			return;
 		}
 	});
@@ -545,13 +549,17 @@ taskRoute.delete(function(req, res) {
 		return;
 	}
 
-	Task.findByIdAndRemove(taskID, function(err) {
+	Task.findByIdAndRemove(taskID, function(err, task) {
 		if(err) {
 			res.status(500).json({"message" : '' + err, "data" : []});
 			return;
 		}
-		else {
+		else if(task) {
 			res.json({"message" : "Task deleted.", "data" : []});
+			return;
+		}
+		else {
+			res.status(404).json({"message" : "Error: Task not found.", data : []});
 			return;
 		}
 	});
